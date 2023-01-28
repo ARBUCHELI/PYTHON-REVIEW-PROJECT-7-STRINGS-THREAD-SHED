@@ -107,3 +107,75 @@ green&white;,;09/15/17,   Gail Phelps   ;,;$30.52
 
 #------------------------------------------------
 # Start coding below!
+daily_sales_replaced = daily_sales.replace(";,;", "-")
+daily_transactions = daily_sales_replaced.split(",")
+#print(daily_transactions)
+
+daily_transactions_split = []
+
+for transaction in daily_transactions:
+  daily_transactions_split.append(transaction.split("-"))
+
+#print(daily_transactions_split)
+
+transactions_clean = []
+
+for transaction in daily_transactions_split:
+  cleaned_transaction = []
+  for point in transaction:
+    temp = point.strip()
+    cleaned_transaction.append(temp)
+  transactions_clean.append(cleaned_transaction)
+
+#print(transactions_clean)
+
+customers = []
+sales = []
+thread_sold = []
+
+for list in transactions_clean:
+  customers.append(list[0])
+  sales.append(list[1])
+  thread_sold.append(list[2])
+
+#print(customers)
+#print(sales)
+#print(thread_sold)
+
+total_sales = 0
+
+cleaned_sales = []
+for price in sales:
+  cleaned_sales.append(float(price.strip('$')))
+
+for price in cleaned_sales:
+  total_sales += price
+
+#print(total_sales)
+#print(thread_sold)
+
+thread_sold_split = []
+for color in thread_sold:
+  if color.find('&') == -1:
+    thread_sold_split.append(color)
+  else:
+    minilist = color.split('&')
+    for mini_item in minilist:  
+      thread_sold_split.append(mini_item)
+
+#print(thread_sold_split)
+
+def color_count(color):
+  counter = 0
+  for item in thread_sold_split:
+    if item == color:
+      counter += 1
+  return counter
+
+#print(color_count('white'))
+
+colors = ['red', 'yellow', 'green', 'white', 'black', 'blue', 'purple']
+
+for color in colors:
+  print(
+    "Thread Shed sold {} threads of {} thread today.".format(color_count(color), color))
